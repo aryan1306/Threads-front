@@ -4,13 +4,19 @@ const Form = styled.form`
   .form .form-group {
     margin: 1.2rem 0;
   }
-
+  h2 {
+    font-size: ${(props) => props.size || "auto"};
+    color: ${(props) => props.h2color || "#888"};
+  }
   .form .form-text {
     display: block;
     margin-top: 0.3rem;
-    color: #888;
+    color: ${(props) => props.formColor || "#888"};
   }
-
+  p {
+    font-size: ${(props) => props.pSize || "auto"};
+    color: ${(props) => props.pColor || "auto"};
+  }
   .form input[type="text"],
   .form input[type="email"],
   .form input[type="password"],

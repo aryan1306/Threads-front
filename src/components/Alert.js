@@ -6,9 +6,11 @@ import styled from "styled-components";
 const MyAlert = styled.div`
   .alert {
     padding: 0.8rem;
-    margin: 1rem 0;
+    margin: 1rem 1rem;
     opacity: 0.9;
+    border-radius: 0.5em;
     color: #333;
+    font-family: Gilroy, sans-serif;
   }
   .alert-primary {
     background: #7d72c1;

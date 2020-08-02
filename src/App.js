@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 import Navbar from "./components/Navbar";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Alert from "./components/Alert";
+import SetProfile from "./pages/SetProfile";
+import PrivateRoute from "./redux/routing/PrivateRoute";
+//redux
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { loadUser } from "./redux/actions/auth_actions";
 import setAuthToken from "./redux/utils/setAuthToken";
-import Alert from "./components/Alert";
 
 import "./App.css";
 
@@ -22,8 +26,12 @@ const App = () => {
       <BrowserRouter>
         <Navbar />
         <Alert />
+        <Route exact path='/' component={Register} />
         <section className='container'>
-          <Register />
+          <Switch>
+            <Route exact path='/login' component={Login} />
+            <PrivateRoute exact path='/photo' component={SetProfile} />
+          </Switch>
         </section>
       </BrowserRouter>
     </Provider>

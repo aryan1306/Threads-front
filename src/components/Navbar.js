@@ -1,6 +1,9 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { logout } from "../redux/actions/auth_actions";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 const MyNavbar = styled.nav`
   nav {
@@ -15,7 +18,8 @@ const MyNavbar = styled.nav`
   a {
     text-decoration: none;
     color: white;
-    font-family: "Poppins", sans-serif;
+    font-family: "Gilroy", sans-serif;
+    font-weight: 500;
   }
   a:hover {
     color: #bebfc1;
@@ -42,26 +46,56 @@ const MyNavbar = styled.nav`
   }
 `;
 
-const Navbar = () => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const authLinks = (
+    <ul className='nav-links'>
+      <li className='links'>
+        <Link to='/'>Home</Link>
+      </li>
+      <li className='links'>
+        <Link to='/explore'>Explore</Link>
+      </li>
+      <li className='links'>
+        <Link to='/me'>Me</Link>
+      </li>
+      <li className='links'>
+        <Link onClick={logout} to='/'>
+          <i className='fas fa-sign-out-alt' />{" "}
+          <span className='hide-sm'>Logout</span>
+        </Link>
+      </li>
+    </ul>
+  );
+  const guestLinks = (
+    <ul className='nav-links'>
+      <li className='links'>
+        <Link to='/'>Sign Up</Link>
+      </li>
+      <li className='links'>
+        <Link to='/login'>Login</Link>
+      </li>
+    </ul>
+  );
   return (
     <MyNavbar>
       <nav>
         <h1>
           <Link to='/'>Threads</Link>
         </h1>
-        <ul className='nav-links'>
-          <li className='links'>
-            <Link to='/'>Home</Link>
-          </li>
-          <li className='links'>
-            <Link to='/explore'>Explore</Link>
-          </li>
-          <li className='links'>
-            <Link to='/me'>Me</Link>
-          </li>
-        </ul>
+        {!loading && (
+          <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+        )}
       </nav>
     </MyNavbar>
   );
 };
-export default Navbar;
+
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);
